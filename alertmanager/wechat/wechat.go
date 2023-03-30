@@ -120,12 +120,7 @@ func (r *Wechat) buildRequestBodyWechat(
 	} else {
 		text = customMsg
 	}
-	var content = []wechatWebhookContent{
-		{
-			Tag:     "markdown",
-			Content: text,
-		},
-	}
+	var content = "#" + r.title + "\n" + text
 
 	jsonBytes, _ := json.Marshal(content)
 
