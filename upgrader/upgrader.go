@@ -49,7 +49,7 @@ func (u *Upgrader) checkRelease() {
 
 	r, _, err := client.Repositories.GetLatestRelease(
 		context.TODO(),
-		"abahmed",
+		"heian0224",
 		"kwatch")
 	if err != nil {
 		logrus.Warnf("failed to get latest release: %s", err.Error())
