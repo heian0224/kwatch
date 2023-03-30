@@ -2,6 +2,7 @@ package alertmanager
 
 import (
 	"github.com/abahmed/kwatch/alertmanager/feishu"
+	"github.com/abahmed/kwatch/alertmanager/wechat"
 	"reflect"
 	"strings"
 
@@ -62,6 +63,8 @@ func (a *AlertManager) Init(config map[string]map[string]string) {
 			pvdr = dingtalk.NewDingTalk(v)
 		} else if lowerCaseKey == "feishu" {
 			pvdr = feishu.NewFeiShu(v)
+		} else if lowerCaseKey == "wechat" {
+			pvdr = wechat.NewWechat(v)
 		}
 
 		if !reflect.ValueOf(pvdr).IsNil() {
