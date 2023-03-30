@@ -25,7 +25,7 @@ func TestRocketChat(t *testing.T) {
 	c := NewWechat(config)
 	assertions.NotNil(c)
 
-	assertions.Equal(c.Name(), "Fei Shu")
+	assertions.Equal(c.Name(), "Wechat")
 }
 
 func TestBuildRequestBodyWechat(t *testing.T) {
@@ -50,7 +50,7 @@ func TestBuildRequestBodyWechat(t *testing.T) {
 		Logs:      "test\ntestlogs",
 		Events:    "test",
 	}
-	expectMessage := "{\"msg_type\": \"interactive\",\"card\": {\"config\": {\"wide_screen_mode\": true},\"header\": {\"title\": {\"tag\": \"plain_text\",\"content\": \"\"},\"template\": \"blue\"},\"elements\": [{\"tag\":\"markdown\",\"content\":\"**Pod:** test-pod\\n**Container:** test-container\\n**Namespace:** default\\n**Reason:** OOMKILLED\\n**Events:**\\n```\\ntest\\n```\\n**Logs:**\\n```\\ntest\\ntestlogs\\n```\"}]}}"
+	expectMessage := "{ \"msgtype\": \"markdown\", \"markdown\": { \"content\": \"# \n**Pod:** test-pod\n**Container:** test-container\n**Namespace:** default\n**Reason:** OOMKILLED\n**Events:**\n```\ntest\n```\n**Logs:**\n```\ntest\ntestlogs\n```\" }}"
 	assertions.Equal(expectMessage, c.buildRequestBodyWechat(&ev, ""))
 }
 
@@ -67,6 +67,7 @@ func TestSendMessage(t *testing.T) {
 	config := map[string]string{
 		"webhook": s.URL,
 	}
+
 	c := NewWechat(config)
 	assertions.NotNil(c)
 

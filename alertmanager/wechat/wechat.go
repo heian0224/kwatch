@@ -2,7 +2,6 @@ package wechat
 
 import (
 	"bytes"
-	"encoding/json"
 	"fmt"
 	"github.com/abahmed/kwatch/constant"
 	"github.com/abahmed/kwatch/event"
@@ -57,13 +56,17 @@ func (r *Wechat) sendByWechatApi(reqBody string) error {
 	}
 
 	request.Header.Set("Content-Type", "application/json")
-
+	//reqDump, err := httputil.DumpRequestOut(request, true)
+	//if err != nil {
+	//	log.Fatal(err)
+	//}
+	//fmt.Printf("REQUEST:\n%s", string(reqDump))
 	response, err := client.Do(request)
 	if err != nil {
 		return err
 	}
 	defer response.Body.Close()
-
+	//fmt.Printf("response body:%s", body)
 	if response.StatusCode != 200 {
 		body, _ := io.ReadAll(response.Body)
 		return fmt.Errorf(
@@ -120,10 +123,8 @@ func (r *Wechat) buildRequestBodyWechat(
 	} else {
 		text = customMsg
 	}
-	var content = "#" + r.title + "\n" + text
+	var content = "# " + r.title + "\n" + text
 
-	jsonBytes, _ := json.Marshal(content)
-
-	body := "{ \"msgtype\": \"markdown\", \"markdown\": { \"content\": \"" + string(jsonBytes) + "\" }}"
+	body := "{ \"msgtype\": \"markdown\", \"markdown\": { \"content\": \"" + content + "\" }}"
 	return body
 }
